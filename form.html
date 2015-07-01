@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+	<meta charset="UTF-8">
+	<title>Angular validation form</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.12/angular.js"></script>
+	<script src="app.js"></script>
+
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+		.error {
+			color: red;
+			font-size: 12px;
+		}
+		input, label, textarea {
+			display: block;
+			width: 100%;
+			margin-bottom: 10px;
+			font-size: 16px;
+			font-family: 'Gill Sans';
+			color: #777;
+		}
+		input, textarea {
+			padding: 5px 10px;
+		}
+		input.ng-invalid,
+		input.ng-invalid.ng-touched { border: 1px solid red; }
+
+		input.ng-valid,
+		input.ng-valid.ng-touched { border: 1px solid #55cc88; }
+
+		input.ng-pristine { border: 1px solid #ccc; }
+		input.ng-dirty { border: 1px solid #777; }
+	</style>
+</head>
+<body>
+	
+	<form id="angular-form-validation" name="submission" novalidate ng-controller="formValidationController">
+		
+	<!-- ====================================================================== -->
+	<!-- First Name -->
+	<p class="error" ng-show="submission.fname.$touched && submission.fname.$invalid ">
+		<span class="error" ng-show="submission.fname.$error.required">A first name is required.</span>
+		<span class="error" ng-show="submission.fname.$error.minlength">Your first name must be at least 2 characters long.</span>
+	</p>
+	<label for="fname">First Name:*</label>
+	<input type="text" id="fname" name="fname" ng-model="user.fname" required ng-minlength="2" placeholder="First Name">
+
+	<!-- ====================================================================== -->
+	<!-- Last Name -->
+	<p class="error" ng-show="submission.lname.$touched && submission.lname.$invalid ">
+		<span class="error" ng-show="submission.lname.$error.required">A last name is required.</span>
+		<span class="error" ng-show="submission.lname.$error.minlength">Your last name must be at least 2 characters long.</span>
+	</p>
+	<label for="lname">Last Name:*</label>
+	<input type="text" id="lname" name="lname" ng-model="user.lname" required ng-minlength="2" placeholder="Last Name">
+
+	<!-- ====================================================================== -->
+	<!-- Username -->
+	<p class="error" ng-show="submission.username.$touched && submission.username.$invalid ">
+		<span class="error" ng-show="submission.username.$error.required">A username is required.</span>
+		<span class="error" ng-show="submission.username.$error.minlength">Your username must be at least 4 characters long.</span>
+		<span class="error" ng-show="submission.username.$error.unique">This username is taken.</span>
+	</p>
+	<label for="username">Username:*</label>
+	<input type="text" id="username" name="username" ng-model="user.username" required ng-minlength="4" placeholder="Username">
+
+	<!-- ====================================================================== -->
+	<!-- Email -->
+	<p class="error" ng-show="submission.email.$touched && submission.email.$invalid ">
+		<span class="error" ng-show="submission.email.$error.required">A email is required.</span>
+		<span class="error" ng-show="submission.email.$error.email">Your email appears to be invalid.</span>
+	</p>
+	<label for="email">Email:*</label>
+	<input type="email" id="email" name="email" ng-model="user.email" required placeholder="address@domain.com">
+
+	<!-- ====================================================================== -->
+	<!-- Phone Number -->
+	<p class="error" ng-show="submission.phone.$touched && submission.phone.$invalid ">
+		<span class="error" ng-show="submission.phone.$error.pattern">Your phone number appears to be invalid.</span>
+	</p>
+	<label for="phone">Phone:</label>
+	<input type="tel" id="phone" name="phone" ng-model="user.phone" placeholder="(555)555-5555" ng-pattern="/^\(?(\d{3})\)?[ .-]?(\d{3})[ .-]?(\d{4})$/">
+
+	<!-- ====================================================================== -->
+	<!-- URL -->
+	<p class="error" ng-show="submission.url.$touched && submission.url.$invalid ">
+		<span class="error" ng-show="submission.url.$error.url">This doesn't appear to be a valid URL.</span>
+	</p>
+	<label for="url">URL:</label>
+	<input type="url" id="url" name="url" ng-model="user.url" placeholder="http://www.mywebsite.com">
+
+	<!-- ====================================================================== -->
+	<!-- Password -->
+	<p class="error" ng-show="submission.password.$touched && submission.password.$invalid ">
+		<span class="error" ng-show="submission.password.$error.minlength">Your password must be longer than 4 characters.</span>
+		<span class="error" ng-show="submission.password.$error.maxlength">Your password cannot be longer than 20 characters.</span>
+	</p>
+	<label for="password">Password:*</label>
+	<input type="password" id="password" name="password" ng-model="user.password" required ng-minlength="5" ng-maxlength="16">
+
+	<!-- ====================================================================== -->
+	<!-- Password Confirmation -->
+	<p class="error" ng-show="submission.passwordconfirm.$touched">
+		<span class="error" ng-hide="user.matched">Passwords don't match.</span>
+	</p>
+	<label for="passwordconfirm">Confirm Password:*</label>
+	<input type="password" id="passwordconfirm" name="passwordconfirm" ng-model="user.passwordconfirm" required ng-blur="passwordConfirmation()">
+
+	<!-- ====================================================================== -->
+	<!-- Message -->
+	<label for="message">Message:</label>
+	<textarea id="message" ng-model="user.message" name="message" placeholder="Type some words"></textarea>
+
+	<!-- ====================================================================== -->
+	<!-- Submit Button -->
+	<button type="submit" id="submitbutton" name="submitbutton" value="Submit" ng-click="passwordConfirmation()" ng-disabled="submission.$invalid">Submit</button>	
+</form>
+</body>
+</html>
